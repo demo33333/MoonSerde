@@ -23,15 +23,19 @@
     <main class="dashboard">
       <div class="panel controls-panel">
         <div class="panel-header">
-          <h2>Serialize from MoonBit</h2>
+          <h2>Wasm JSON Parser</h2>
         </div>
         <div class="panel-content">
-          <p class="description">Click a button to invoke the Wasm binary, building a MoonBit data structure and serializing it into JSON instantly.</p>
-          <div class="button-group">
-            <button id="btn-primitive" class="cyber-btn">Primitive String</button>
-            <button id="btn-array" class="cyber-btn">Numeric Array</button>
-            <button id="btn-map" class="cyber-btn">String Map</button>
-            <button id="btn-nested" class="cyber-btn">Nested Objects</button>
+          <p class="description">Test bidirectional FFI! Input custom JSON, let MoonBit Wasm parse it to AST, and serialize it back.</p>
+          <textarea id="json-input" class="cyber-input" rows="5">{
+  "hello": "MoonSerde",
+  "is_fast": true,
+  "nested": [1, 2, 3]
+}</textarea>
+          <div class="button-group" style="margin-top: 15px;">
+            <button id="btn-parse" class="cyber-btn parse-btn">Parse & Echo via MoonBit</button>
+            <button id="btn-primitive" class="cyber-btn">Demo: Primitive String</button>
+            <button id="btn-nested" class="cyber-btn">Demo: Nested Objects</button>
           </div>
         </div>
       </div>

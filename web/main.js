@@ -76,22 +76,22 @@ async function init() {
 init();
 
 // Bind buttons
+document.getElementById('btn-parse').addEventListener('click', () => {
+  if(!wasmInstance) return;
+  const inputStr = document.getElementById('json-input').value;
+  statusText.innerText = "Parsing...";
+  
+  wasmInstance.exports.input_start();
+  for(let i=0; i<inputStr.length; i++) {
+    wasmInstance.exports.input_char(inputStr.charCodeAt(i));
+  }
+  wasmInstance.exports.input_parse_and_echo();
+});
+
 document.getElementById('btn-primitive').addEventListener('click', () => {
   if(!wasmInstance) return;
   statusText.innerText = "Serializing...";
   wasmInstance.exports.demo_serialize_primitive();
-});
-
-document.getElementById('btn-array').addEventListener('click', () => {
-  if(!wasmInstance) return;
-  statusText.innerText = "Serializing...";
-  wasmInstance.exports.demo_serialize_array();
-});
-
-document.getElementById('btn-map').addEventListener('click', () => {
-  if(!wasmInstance) return;
-  statusText.innerText = "Serializing...";
-  wasmInstance.exports.demo_serialize_map();
 });
 
 document.getElementById('btn-nested').addEventListener('click', () => {

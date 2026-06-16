@@ -48,4 +48,36 @@ pub fn demo_serialize_nested() -> Unit {
   write_json_to_js(val)
 }
 
+let input_buffer : Ref[Array[Char]] = { val: [] }
+
+pub fn input_start() -> Unit {
+  input_buffer.val = []
+}
+
+pub fn input_char(c : Int) -> Unit {
+  input_buffer.val.push(Char::from_int(c))
+}
+
+pub fn input_parse_and_echo() -> Unit {
+  let b = StringBuilder::new()
+  for i = 0; i < input_buffer.val.length(); i = i + 1 {
+    b.write_char(input_buffer.val[i])
+  }
+  let s = b.to_string()
+  
+  match from_json(s) {
+    Ok(val) => {
+      write_json_to_js(val)
+    }
+    Err(e) => {
+      js_output_start()
+      let err_str = "ERROR: " + e
+      for i = 0; i < err_str.length(); i = i + 1 {
+        js_output_char(err_str[i].to_int())
+      }
+      js_output_end()
+    }
+  }
+}
+
 fn main { }
