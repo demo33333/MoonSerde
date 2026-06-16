@@ -1,3 +1,23 @@
+/// Core representation of JSON data in MoonSerde.
+///
+/// Mirrors the JSON data model with variants for null, boolean, numbers,
+/// strings, arrays and objects.  The `derive(Debug, Eq)` at the end provides
+/// debugging and equality capabilities.
+pub enum Value {
+  Null
+  BoolVal(Bool)
+  IntVal(Int)
+  DoubleVal(Double)
+  StringVal(String)
+  ArrayVal(Array[Value])
+  ObjectVal(Map[String, Value])
+}
+
+/// Serialize a MoonBit `Value` into a JSON string.
+///
+/// This function recursively walks the `Value` enum and produces a valid JSON
+/// representation. It is intended for use by the Web Playground to display the
+/// result of serialization.
 pub fn to_json(v: Value) -> String {
   match v {
     Null => "null"
