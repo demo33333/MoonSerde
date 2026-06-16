@@ -1,0 +1,3 @@
+[submodule "osc2026-guide"]
+	path = osc2026-guide
+	url = https://gitlink.org.cn/MilkyNatas/osc2026-guide.git
