@@ -24,7 +24,42 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="background-grid"></div>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <!-- Login Panel -->
+  <div class="auth-container" id="auth-container">
+    <div class="panel auth-panel">
+      <div class="panel-header">
+        <h2 id="auth-title">System Access</h2>
+        <div class="status-indicator">
+          <span class="dot"></span>
+          <span class="status-text" id="auth-status">Security Portal</span>
+        </div>
+      </div>
+      <div class="panel-content">
+        <form id="login-form" class="auth-form">
+          <p class="description">Enter credentials to interface with the MoonSerde Serialization core.</p>
+          <div class="input-group">
+            <label for="login-username">Identifier</label>
+            <input type="text" id="login-username" class="cyber-input" placeholder="User / Node Alias" required>
+          </div>
+          <div class="input-group" style="margin-top: 15px;">
+            <label for="login-password">Security Key</label>
+            <input type="password" id="login-password" class="cyber-input" placeholder="••••••••" required>
+          </div>
+          <div class="error-msg" id="login-error" style="color:#ff5c8d; margin-top:10px; font-size:0.9rem; display:none;"></div>
+          <div class="button-group" style="margin-top:25px;">
+            <button type="submit" id="btn-login-submit" class="cyber-btn parse-btn">Access System</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Playground (hidden until login) -->
+  <div class="container hidden" id="playground-container">
     <header>
       <h1>MoonSerde <span>Playground</span></h1>
       <p>WebAssembly powered JSON parser demo</p>
@@ -32,9 +67,7 @@
     <main class="dashboard">
       <div class="panel controls-panel">
         <div class="panel-header"><h2>Controls</h2></div>
-        <div class="panel-content">
-          <p>Enter JSON and parse via MoonBit Wasm.</p>
-        </div>
+        <div class="panel-content"><p>Enter JSON and parse via MoonBit Wasm.</p></div>
       </div>
       <div class="panel output-panel">
         <div class="panel-header"><h2>Output</h2></div>
@@ -42,6 +75,7 @@
       </div>
     </main>
   </div>
+
   <script src="main.js"></script>
 </body>
 </html>
