@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="scanlines"></div>
   <div class="background-grid"></div>
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
@@ -69,6 +70,14 @@
   </div>
 
   <div class="container hidden" id="playground-container">
+    <div class="session-bar">
+      <div class="user-badge">
+        <span class="user-pulse"></span>
+        <span class="user-name" id="user-display-name">NODE: GUEST</span>
+      </div>
+      <button id="btn-disconnect" class="cyber-btn disconnect-btn">Disconnect</button>
+    </div>
+
     <header>
       <h1>MoonSerde <span>Playground</span></h1>
       <p>High-performance data serialization powered by MoonBit & WebAssembly</p>
@@ -87,7 +96,10 @@
   "nested": [1, 2, 3]
 }</textarea>
           <div class="button-group" style="margin-top: 15px;">
-            <button id="btn-parse" class="cyber-btn parse-btn">Parse & Echo via MoonBit</button>
+            <div class="button-row" style="display: flex; gap: 10px; width: 100%;">
+              <button id="btn-parse" class="cyber-btn parse-btn" style="flex: 2;">Parse & Echo via MoonBit</button>
+              <button id="btn-format" class="cyber-btn utility-btn" style="flex: 1; text-align: center; justify-content: center;" title="Beautify Input JSON">Format JSON</button>
+            </div>
             <button id="btn-primitive" class="cyber-btn">Demo: Primitive String</button>
             <button id="btn-nested" class="cyber-btn">Demo: Nested Objects</button>
           </div>
@@ -97,9 +109,12 @@
       <div class="panel output-panel">
         <div class="panel-header">
           <h2>JSON Output</h2>
-          <div class="status-indicator">
-            <span class="dot"></span>
-            <span class="status-text" id="status-text">Wasm Ready</span>
+          <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+            <button id="btn-copy" class="cyber-btn mini-btn" title="Copy Output to Clipboard">Copy</button>
+            <div class="status-indicator">
+              <span class="dot"></span>
+              <span class="status-text" id="status-text">Wasm Ready</span>
+            </div>
           </div>
         </div>
         <div class="panel-content code-container">
