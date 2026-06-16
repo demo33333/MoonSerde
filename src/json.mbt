@@ -1,0 +1,31 @@
+pub fn to_json(v: Value) -> String {
+  match v {
+    Null => "null"
+    BoolVal(b) => if b { "true" } else { "false" }
+    IntVal(i) => i.to_string()
+    DoubleVal(d) => d.to_string()
+    StringVal(s) => "\\u0022" + s + "\\u0022"
+    ArrayVal(arr) => {
+      let mut res = "["
+      for i = 0; i < arr.length(); i = i + 1 {
+        if i > 0 {
+          res = res + ","
+        }
+        res = res + to_json(arr[i])
+      }
+      res + "]"
+    }
+    ObjectVal(map) => {
+      let mut res = "{"
+      let mut first = true
+      map.each(fn(k, val) {
+        if !first {
+          res = res + ","
+        }
+        first = false
+        res = res + "\\u0022" + k + "\\u0022:" + to_json(val)
+      })
+      res + "}"
+    }
+  }
+}
