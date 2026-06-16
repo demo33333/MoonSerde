@@ -3,7 +3,7 @@
   "name": "username/moonserde",
   "packages": [
     {
-      "is-main": false,
+      "is-main": true,
       "is-third-party": false,
       "root-path": "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src",
       "root": "username/moonserde",
@@ -49,6 +49,19 @@
           ]
         },
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\value.mbt": {
+          "backend": [
+            "Wasm",
+            "WasmGC",
+            "Js",
+            "Native",
+            "LLVM"
+          ],
+          "optlevel": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\wasm_export.mbt": {
           "backend": [
             "Wasm",
             "WasmGC",
@@ -114,10 +127,12 @@
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\json.mbt",
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\traits.mbt",
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\value.mbt",
+        "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\wasm_export.mbt",
         "-o",
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\_build\\.ide\\wasm-gc\\debug\\check\\src\\src.mi",
         "-pkg",
         "username/moonserde/src",
+        "-is-main",
         "-std-path",
         "C:\\Users\\Asus\\.moon\\lib\\core\\_build\\wasm-gc\\release\\bundle",
         "-i",
@@ -147,6 +162,8 @@
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\traits.mbt",
         "-doctest-only",
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\value.mbt",
+        "-doctest-only",
+        "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\src\\wasm_export.mbt",
         "-include-doctests",
         "-o",
         "C:\\Users\\Asus\\Desktop\\newprojects\\MoonSerde\\_build\\.ide\\wasm-gc\\debug\\check\\src\\src.blackbox_test.mi",
