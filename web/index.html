@@ -14,7 +14,61 @@
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
   
-  <div class="container">
+  <!-- Auth Panel -->
+  <div class="auth-container" id="auth-container">
+    <div class="panel auth-panel">
+      <div class="panel-header">
+        <h2 id="auth-title">System Access</h2>
+        <div class="status-indicator">
+          <span class="dot"></span>
+          <span class="status-text" id="auth-status">Security Portal</span>
+        </div>
+      </div>
+      <div class="panel-content">
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+          <p class="description">Enter credentials to interface with the MoonSerde Serialization core.</p>
+          <div class="input-group">
+            <label for="login-username">Identifier</label>
+            <input type="text" id="login-username" class="cyber-input" placeholder="User / Node Alias" required>
+          </div>
+          <div class="input-group" style="margin-top: 15px;">
+            <label for="login-password">Security Key</label>
+            <input type="password" id="login-password" class="cyber-input" placeholder="••••••••" required>
+          </div>
+          <div class="error-msg" id="login-error" style="color: #ff5c8d; margin-top: 10px; font-size: 0.9rem; display: none;"></div>
+          <div class="button-group" style="margin-top: 25px;">
+            <button type="submit" id="btn-login-submit" class="cyber-btn parse-btn">Access System</button>
+            <p class="auth-switch-text">New terminal node? <a href="#" id="go-to-register">Initialize Key</a></p>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" class="auth-form hidden">
+          <p class="description">Establish a new security descriptor on this terminal node.</p>
+          <div class="input-group">
+            <label for="register-username">Identifier</label>
+            <input type="text" id="register-username" class="cyber-input" placeholder="New Node Alias" required>
+          </div>
+          <div class="input-group" style="margin-top: 15px;">
+            <label for="register-password">Security Key</label>
+            <input type="password" id="register-password" class="cyber-input" placeholder="Min 6 characters" required>
+          </div>
+          <div class="input-group" style="margin-top: 15px;">
+            <label for="register-confirm-password">Confirm Security Key</label>
+            <input type="password" id="register-confirm-password" class="cyber-input" placeholder="Re-enter Security Key" required>
+          </div>
+          <div class="error-msg" id="register-error" style="color: #ff5c8d; margin-top: 10px; font-size: 0.9rem; display: none;"></div>
+          <div class="button-group" style="margin-top: 25px;">
+            <button type="submit" id="btn-register-submit" class="cyber-btn">Initialize Account</button>
+            <p class="auth-switch-text">Existing terminal node? <a href="#" id="go-to-login">Access Portal</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hidden" id="playground-container">
     <header>
       <h1>MoonSerde <span>Playground</span></h1>
       <p>High-performance data serialization powered by MoonBit & WebAssembly</p>

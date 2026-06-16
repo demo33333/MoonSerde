@@ -267,6 +267,79 @@ code {
 .num { color: #b352ff; }
 .bool { color: #ff5c8d; }
 
+/* Auth Layout & Form Styles */
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+  z-index: 10;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.auth-panel {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(69, 250, 220, 0.1);
+}
+
+.auth-form {
+  transition: opacity 0.3s ease;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.auth-switch-text {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+  width: 100%;
+}
+
+.auth-switch-text a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 1px dashed rgba(69, 250, 220, 0.3);
+}
+
+.auth-switch-text a:hover {
+  color: var(--accent-purple);
+  border-bottom-color: var(--accent-purple);
+  text-shadow: 0 0 10px rgba(179, 82, 255, 0.4);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 768px) {
   .dashboard {
     grid-template-columns: 1fr;
