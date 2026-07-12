@@ -204,3 +204,109 @@ test "expanded trait implementations" {
   let val_t2 = Serialize::to_value(tuple2)
   assert_eq(to_json(val_t2), "[42,\\u0022hello\\u0022]")
 }
+
+test "urlencoded form parse and serialize" {
+  let form_str = "name=MoonSerde&version=1&features[0]=json&features[1]=bson"
+  match parse_form(form_str) {
+    Ok(val) => {
+      match val {
+        Value::ObjectVal(m) => {
+          assert_eq(m.get("name"), Some(Value::StringVal("MoonSerde")))
+          assert_eq(m.get("version"), Some(Value::IntVal(1)))
+          match m.get("features") {
+            Some(Value::ObjectVal(feats)) => {
+              assert_eq(feats.get("0"), Some(Value::StringVal("json")))
+              assert_eq(feats.get("1"), Some(Value::StringVal("bson")))
+            }
+            _ => fail("Expected nested features object")
+          }
+        }
+        _ => fail("Expected ObjectVal")
+      }
+      
+      match to_form_string(val) {
+        Ok(serialized) => {
+          assert_eq(serialized.contains("name=MoonSerde"), true)
+          assert_eq(serialized.contains("version=1"), true)
+        }
+        Err(e) => fail(e)
+      }
+    }
+    Err(e) => fail(e)
+  }
+}
+
+test "bson parse and serialize" {
+  let map = Map::new()
+  map.set("name", Value::StringVal("BSON Test"))
+  map.set("count", Value::IntVal(100))
+  map.set("valid", Value::BoolVal(true))
+  
+  let val = Value::ObjectVal(map)
+  match to_bson(val) {
+    Ok(bytes) => {
+      match parse_bson(bytes) {
+        Ok(decoded) => {
+          match decoded {
+            Value::ObjectVal(m) => {
+              assert_eq(m.get("name"), Some(Value::StringVal("BSON Test")))
+              assert_eq(m.get("count"), Some(Value::IntVal(100)))
+              assert_eq(m.get("valid"), Some(Value::BoolVal(true)))
+            }
+            _ => fail("Expected ObjectVal after decoding BSON")
+          }
+        }
+        Err(e) => fail(e)
+      }
+    }
+    Err(e) => fail(e)
+  }
+}
+
+test "json pointer evaluation" {
+  let map = Map::new()
+  map.set("a", Value::IntVal(1))
+  map.set("b", Value::ArrayVal([Value::StringVal("item0"), Value::StringVal("item1")]))
+  
+  let nested = Map::new()
+  nested.set("c", Value::BoolVal(true))
+  map.set("nested", Value::ObjectVal(nested))
+  
+  let val = Value::ObjectVal(map)
+  
+  assert_eq(eval_pointer(val, "/a"), Ok(Value::IntVal(1)))
+  assert_eq(eval_pointer(val, "/b/1"), Ok(Value::StringVal("item1")))
+  assert_eq(eval_pointer(val, "/nested/c"), Ok(Value::BoolVal(true)))
+  assert_eq(eval_pointer(val, "/non_existent"), Err("JSON Pointer resolution failed: member not found: non_existent"))
+}
+
+test "form urlencoded edge cases" {
+  let form_str = "a=hello+world&b=x%26y%3Dz&c="
+  match parse_form(form_str) {
+    Ok(val) => {
+      match val {
+        Value::ObjectVal(m) => {
+          assert_eq(m.get("a"), Some(Value::StringVal("hello world")))
+          assert_eq(m.get("b"), Some(Value::StringVal("x&y=z")))
+          assert_eq(m.get("c"), Some(Value::StringVal("")))
+        }
+        _ => fail("Expected ObjectVal")
+      }
+    }
+    Err(e) => fail(e)
+  }
+}
+
+test "json pointer unescaping and formatting" {
+  let path = ["foo/bar", "baz~qux"]
+  let formatted = format_pointer(path)
+  assert_eq(formatted, "/foo~1bar/baz~0qux")
+  
+  let map = Map::new()
+  let inner = Map::new()
+  inner.set("baz~qux", Value::IntVal(999))
+  map.set("foo/bar", Value::ObjectVal(inner))
+  let val = Value::ObjectVal(map)
+  
+  assert_eq(eval_pointer(val, "/foo~1bar/baz~0qux"), Ok(Value::IntVal(999)))
+}
