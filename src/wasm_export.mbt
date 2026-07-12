@@ -80,4 +80,16 @@ pub fn input_parse_and_echo() -> Unit {
   }
 }
 
-fn main { }
+#cfg(target = "js")
+fn start_app() -> Unit {
+  setup_frontend()
+}
+
+#cfg(not(target = "js"))
+fn start_app() -> Unit {
+  // Do nothing for Wasm/Native targets
+}
+
+fn main {
+  start_app()
+}

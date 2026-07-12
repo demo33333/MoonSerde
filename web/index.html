@@ -3,32 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoonSerde Playground</title>
+  <title>MoonSerde Wasm Playground</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {margin:0; font-family:'Outfit',sans-serif; background:#0a0a0a; color:#e0e0e0;}
-    .container {max-width:960px; margin:auto; padding:2rem;}
-    h1 span {color:#00ffff;}
-    .dashboard {display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;}
-    .panel {background:rgba(255,255,255,0.04); border-radius:12px; padding:1rem; backdrop-filter:blur(8px);}
-    .panel-header h2 {margin:0; font-size:1.2rem; color:#00ffff;}
-    .cyber-input {width:100%; background:rgba(255,255,255,0.08); border:none; border-radius:8px; color:#e0e0e0; padding:0.8rem; font-family:'Fira Code',monospace;}
-    .cyber-btn {background:#00ffff; color:#0a0a0a; border:none; border-radius:8px; padding:0.6rem 1rem; cursor:pointer; transition:transform 0.2s;}
-    .cyber-btn:hover {transform:scale(1.05);}
-    .status-indicator {display:flex; align-items:center; gap:0.4rem;}
-    .dot {width:8px; height:8px; background:#00ff00; border-radius:50%; animation:pulse 2s infinite;}
-    @keyframes pulse {0%{opacity:0.6;} 50%{opacity:1;} 100%{opacity:0.6;}}
-  </style>
 </head>
 <body>
+  <div class="scanlines"></div>
   <div class="background-grid"></div>
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
-  <div class="scanlines"></div>
-
+  
   <!-- Auth Panel -->
   <div class="auth-container" id="auth-container">
     <div class="panel auth-panel">
@@ -51,12 +37,13 @@
             <label for="login-password">Security Key</label>
             <input type="password" id="login-password" class="cyber-input" placeholder="••••••••" required>
           </div>
-          <div class="error-msg" id="login-error" style="color:#ff5c8d; margin-top:10px; font-size:0.9rem; display:none;"></div>
-          <div class="button-group" style="margin-top:25px;">
+          <div class="error-msg" id="login-error" style="color: #ff5c8d; margin-top: 10px; font-size: 0.9rem; display: none;"></div>
+          <div class="button-group" style="margin-top: 25px;">
             <button type="submit" id="btn-login-submit" class="cyber-btn parse-btn">Access System</button>
             <p class="auth-switch-text">New terminal node? <a href="#" id="go-to-register">Initialize Key</a></p>
           </div>
         </form>
+
         <!-- Register Form -->
         <form id="register-form" class="auth-form hidden">
           <p class="description">Establish a new security descriptor on this terminal node.</p>
@@ -72,8 +59,8 @@
             <label for="register-confirm-password">Confirm Security Key</label>
             <input type="password" id="register-confirm-password" class="cyber-input" placeholder="Re-enter Security Key" required>
           </div>
-          <div class="error-msg" id="register-error" style="color:#ff5c8d; margin-top:10px; font-size:0.9rem; display:none;"></div>
-          <div class="button-group" style="margin-top:25px;">
+          <div class="error-msg" id="register-error" style="color: #ff5c8d; margin-top: 10px; font-size: 0.9rem; display: none;"></div>
+          <div class="button-group" style="margin-top: 25px;">
             <button type="submit" id="btn-register-submit" class="cyber-btn">Initialize Account</button>
             <p class="auth-switch-text">Existing terminal node? <a href="#" id="go-to-login">Access Portal</a></p>
           </div>
@@ -82,100 +69,57 @@
     </div>
   </div>
 
-  <!-- Playground (hidden until login) -->
   <div class="container hidden" id="playground-container">
+    <div class="session-bar">
+      <div class="user-badge">
+        <span class="user-pulse"></span>
+        <span class="user-name" id="user-display-name">NODE: GUEST</span>
+      </div>
+      <button id="btn-disconnect" class="cyber-btn disconnect-btn">Disconnect</button>
+    </div>
+
     <header>
       <h1>MoonSerde <span>Playground</span></h1>
-      <p>WebAssembly powered JSON parser demo</p>
+      <p>High-performance data serialization powered by MoonBit & WebAssembly</p>
     </header>
+
     <main class="dashboard">
       <div class="panel controls-panel">
-        <div class="panel-header"><h2>Controls</h2></div>
-        <div class="panel-content"><p>Enter JSON and parse via MoonBit Wasm.</p></div>
-      </div>
-      <div class="panel output-panel">
-        <div class="panel-header"><h2>Output</h2></div>
-        <div class="panel-content"><pre><code id="json-output">// Waiting for input...</code></pre></div>
-      </div>
-    </main>
-  </div>
-
-  <script src="main.js"></script>
-</body>
-</html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoonSerde Playground</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {margin:0; font-family:'Outfit',sans-serif; background:#0a0a0a; color:#e0e0e0;}
-    .container {max-width:960px; margin:auto; padding:2rem;}
-    h1 span {color:#00ffff;}
-    .dashboard {display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;}
-    .panel {background:rgba(255,255,255,0.04); border-radius:12px; padding:1rem; backdrop-filter:blur(8px);}
-    .panel-header h2 {margin:0; font-size:1.2rem; color:#00ffff;}
-    .cyber-input {width:100%; background:rgba(255,255,255,0.08); border:none; border-radius:8px; color:#e0e0e0; padding:0.8rem; font-family:'Fira Code',monospace;}
-    .cyber-btn {background:#00ffff; color:#0a0a0a; border:none; border-radius:8px; padding:0.6rem 1rem; cursor:pointer; transition:transform 0.2s;}
-    .cyber-btn:hover {transform:scale(1.05);}
-    .status-indicator {display:flex; align-items:center; gap:0.4rem;}
-    .dot {width:8px; height:8px; background:#00ff00; border-radius:50%; animation:pulse 2s infinite;}
-    @keyframes pulse {0%{opacity:0.6;} 50%{opacity:1;} 100%{opacity:0.6;}}
-  </style>
-</head>
-<body>
-  <div class="background-grid"></div>
-  <div class="glow-orb orb-1"></div>
-  <div class="glow-orb orb-2"></div>
-
-  <!-- Login Panel -->
-  <div class="auth-container" id="auth-container">
-    <div class="panel auth-panel">
-      <div class="panel-header">
-        <h2 id="auth-title">System Access</h2>
-        <div class="status-indicator">
-          <span class="dot"></span>
-          <span class="status-text" id="auth-status">Security Portal</span>
+        <div class="panel-header">
+          <h2>Wasm JSON Parser</h2>
+        </div>
+        <div class="panel-content">
+          <p class="description">Test bidirectional FFI! Input custom JSON, let MoonBit Wasm parse it to AST, and serialize it back.</p>
+          <textarea id="json-input" class="cyber-input" rows="5">{
+  "hello": "MoonSerde",
+  "is_fast": true,
+  "nested": [1, 2, 3]
+}</textarea>
+          <div class="button-group" style="margin-top: 15px;">
+            <div class="button-row" style="display: flex; gap: 10px; width: 100%;">
+              <button id="btn-parse" class="cyber-btn parse-btn" style="flex: 2;">Parse & Echo via MoonBit</button>
+              <button id="btn-format" class="cyber-btn utility-btn" style="flex: 1; text-align: center; justify-content: center;" title="Beautify Input JSON">Format JSON</button>
+            </div>
+            <button id="btn-primitive" class="cyber-btn">Demo: Primitive String</button>
+            <button id="btn-nested" class="cyber-btn">Demo: Nested Objects</button>
+          </div>
         </div>
       </div>
-      <div class="panel-content">
-        <form id="login-form" class="auth-form">
-          <p class="description">Enter credentials to interface with the MoonSerde Serialization core.</p>
-          <div class="input-group">
-            <label for="login-username">Identifier</label>
-            <input type="text" id="login-username" class="cyber-input" placeholder="User / Node Alias" required>
-          </div>
-          <div class="input-group" style="margin-top: 15px;">
-            <label for="login-password">Security Key</label>
-            <input type="password" id="login-password" class="cyber-input" placeholder="••••••••" required>
-          </div>
-          <div class="error-msg" id="login-error" style="color:#ff5c8d; margin-top:10px; font-size:0.9rem; display:none;"></div>
-          <div class="button-group" style="margin-top:25px;">
-            <button type="submit" id="btn-login-submit" class="cyber-btn parse-btn">Access System</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
-  <!-- Playground (hidden until login) -->
-  <div class="container hidden" id="playground-container">
-    <header>
-      <h1>MoonSerde <span>Playground</span></h1>
-      <p>WebAssembly powered JSON parser demo</p>
-    </header>
-    <main class="dashboard">
-      <div class="panel controls-panel">
-        <div class="panel-header"><h2>Controls</h2></div>
-        <div class="panel-content"><p>Enter JSON and parse via MoonBit Wasm.</p></div>
-      </div>
       <div class="panel output-panel">
-        <div class="panel-header"><h2>Output</h2></div>
-        <div class="panel-content"><pre><code id="json-output">// Waiting for input...</code></pre></div>
+        <div class="panel-header">
+          <h2>JSON Output</h2>
+          <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+            <button id="btn-copy" class="cyber-btn mini-btn" title="Copy Output to Clipboard">Copy</button>
+            <div class="status-indicator">
+              <span class="dot"></span>
+              <span class="status-text" id="status-text">Wasm Ready</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content code-container">
+          <pre><code id="json-output">// Waiting for input...</code></pre>
+        </div>
       </div>
     </main>
   </div>
