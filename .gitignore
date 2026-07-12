@@ -1,0 +1,7 @@
+# MoonBit build directory
+_build/
+target/
+
+# System files
+.DS_Store
+Thumbs.db

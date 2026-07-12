@@ -2,5 +2,13 @@
   "is_main": true,
   "import": [
     "moonbitlang/core/json"
-  ]
+  ],
+  "link": {
+    "js": {
+      "format": "iife"
+    }
+  },
+  "targets": {
+    "frontend.mbt": ["js"]
+  }
 }
